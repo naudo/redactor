@@ -1,0 +1,69 @@
+<html>
+
+  <head>
+    <style>
+      #canvas {
+        background:url(bg.png)
+      }
+    </style>
+  </head>
+
+    <script>
+      objectList = []
+      function Square(x, y, height, width) {
+        this.x = x;
+        this.y = y;
+        this.height = height || 100;
+        this.width = width || 100;
+      }
+
+      Square.prototype.draw = function(ctx) {
+        ctx.fillRect(this.x, this.y, this.height, this.width);
+      }
+
+      function clearCanvas() {
+        var canvas = document.getElementById("canvas");
+        canvas.width = canvas.width
+      }
+
+      function redrawCanvas() {
+        for(var i = 0; i < objectList.length; i++) {
+          objectList[i].draw(canvas.getContext("2d"))
+        }       
+      }
+      function init() {
+        var canvas = document.getElementById("canvas");
+
+
+        if(canvas.getContext) {
+          var ctx = canvas.getContext("2d");
+
+          ctx.strokeStyle = "black"
+          ctx.fillStyle = "black"
+
+          ctx.fillRect(200, 50, 100, 100);
+
+          canvas.addEventListener("click", function(e) {
+            objectList.push(new Square(e.x, e.y))
+            console.log(objectList.length)
+            clearCanvas();
+
+
+            redrawCanvas();
+
+            ctx.fillRect(e.x, e.y, 100, 100);
+          });
+
+
+        } else {
+          alert("I'm sorry, but your browser won't work with this. Please upgrade")
+        }
+      }
+    </script>
+ 
+  <body onload="init();">
+
+    <canvas id = "canvas" height="750px" width="750px"></canvas>
+ </body>
+</html>
+
